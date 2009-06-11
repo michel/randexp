@@ -31,7 +31,7 @@ describe Randexp do
        Randexp::Parser.parse("\\w").last.should == :w
      end
    end
-
+   
    describe '("\\s")' do
      it "should be a literal sexp" do
        Randexp::Parser.parse("\\s").first.should == :random
@@ -102,6 +102,12 @@ describe Randexp do
        Randexp::Parser.parse("[:sentence:]").last.should == :sentence
      end
    end
+   
+  describe '(.) any' do
+    it "should hold any character" do
+       Randexp::Parser.parse(".").last.should == :"."       
+    end
+  end
  end
 
  describe "#reduce" do

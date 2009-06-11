@@ -33,6 +33,12 @@ describe Randexp::Reducer do
       Randexp::Reducer.should_receive(:whitespace).with(:*)
       Randexp::Reducer.random([:s], :*)
     end
+    
+    
+    it "should call :any with the quantity argument if the sexp's value is :\".\"" do
+      Randexp::Reducer.should_receive(:any).with(:".")
+      Randexp::Reducer.random([:"."], :".")
+    end
 
     it "should call :randgen with the quantity argument if the sexp's value for all other cases" do
       Randexp::Reducer.should_receive(:randgen).with(:alpha_numeric, :*)
@@ -114,6 +120,49 @@ describe Randexp::Reducer do
       Randexp::Reducer.char(range)
     end
   end
+  
+  
+  describe ".any" do
+    it "should call Randgen.any if the quantity argument is :'?'" do
+      Randgen.should_receive(:any)
+      Randexp::Reducer.any(:'?')
+    end
+
+    it "should call Randgen.any if the quantity argument is 1" do
+      Randgen.should_receive(:any)
+      Randexp::Reducer.any(1)
+    end
+
+    it "should call Randgen.any if the quantity argument is nil" do
+      Randgen.should_receive(:any)
+      Randexp::Reducer.any(nil)
+    end
+
+    it "should call Randgen.any if the quantity argument is :+" do
+      Randgen.should_receive(:any)
+      Randexp::Reducer.any(:+)
+    end
+
+    it "should call Randgen.any if the quantity argument is :'+?'" do
+      Randgen.should_receive(:any)
+      Randexp::Reducer.any(:'+?')
+    end
+
+    it "should call Randgen.any with the :length option if the quantity argument is an Integer" do
+      Randgen.should_receive(:any).with(:length => 5)
+      Randexp::Reducer.any(5)
+    end
+
+    it "should call Randgen.any with the :length option if the quantity argument is a Range" do
+      range = 1..10
+      range.should_receive(:pick).and_return 7
+      Randgen.should_receive(:any).with(:length => 7)
+      Randexp::Reducer.any(range)
+    end
+  end
+  
+  
+  
 
   describe ".whitespace" do
     it "should call Randgen.whitespace if the quantity is :'?'" do
