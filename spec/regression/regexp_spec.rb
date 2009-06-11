@@ -182,4 +182,23 @@ describe "#{'*' * 80}\nRegression Specs:" do
   it "/[:first_name:]{5,10}/          => /\\w{5,10}/" do
     /[:first_name:]{5,10}/.gen.should =~ /\w{5,10}/
   end
+  
+  it "/./                             => /./" do
+    100.times do
+      /./.gen.should =~ /./
+    end
+  end  
+  
+  it "/.\\./                           => /.\\./" do    
+    100.times do    
+      /.\./.gen =~ /.\./
+    end
+  end
+
+  it "/.{10}@.{1,9999}/             => /.{10}@.{1,9999}/" do    
+    10.times do    
+      /.{10}@.{1,9999}/.gen =~ /.{10}@.{1,9999}/
+    end
+  end 
+
 end

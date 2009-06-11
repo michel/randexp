@@ -50,7 +50,7 @@ The single character matchers supported are words(\w), whitespace(\s), and digit
 
   >> /\d{50}/.gen
       => "50315410741096763188525493528315906035878741451037"
-
+      
 When a multiplicity constraint is placed on a word character, a word with the valid length is generated.
 
   >> /\w{10}/.gen  # a word with 10 letters

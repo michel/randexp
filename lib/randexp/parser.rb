@@ -23,9 +23,11 @@ class Randexp
       when source =~ /^([^()]*)(\(.*\))$/ && balanced?($1, $2)
         union(parse($1), parse($2))                                     #implied group: /..(..)/
       when source =~ /^(.*)\[\:(.*)\:\]$/
-        union(parse($1), random($2))                                    #custom random: /[:word:]/
-      when source =~ /^(.*)\\([wsdc])$/
-        union(parse($1), random($2))                                    #reserved random: /..\w/
+        union(parse($1), random($2))                                    #custom random: /[:word:]/ 
+      when source =~  /(.*)\\(\.)$/ #-----
+        union(parse($1), literal($2))                                   # \.literal
+      when source =~ /^(.*)\\([wsdc])$/ || source =~ /(.*)(\.)$/
+        union(parse($1), random($2))                                    #reserved random: /..\w/ and .
       when source =~ /^(.*)\\(.)$/ || source =~ /(.*)(.|\s)$/
         union(parse($1), literal($2))                                   #end with literal or space: /... /
       else

@@ -1,9 +1,18 @@
+require 'enumerator'
 class Randgen
   WORDS_PER_SENTENCE = 3..20
   SENTENCES_PER_PARAGRAPH = 3..8
   
   def self.bool(options = {})
     ['true', 'false'].pick
+  end
+  
+  def self.any(options = {})
+    length = options[:length] || 1    
+    s = ""
+    length.enum_for(:times).inject(s) do |result, index|    
+      s << rand(93) + 33    
+    end
   end
 
   def self.lchar(options = {})

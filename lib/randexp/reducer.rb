@@ -17,6 +17,7 @@ class Randexp
       when :w then char(quantity)
       when :s then whitespace(quantity)
       when :d then digit(quantity)
+      when :"." then any(quantity)
       else randgen(s, quantity)
       end
     end
@@ -62,6 +63,17 @@ class Randexp
       when Range      then Randgen.word(:length => quantity.pick)
       when 1, nil     then Randgen.char
       when Integer    then Randgen.word(:length => quantity)
+      end
+    end
+    
+    def self.any(quantity)
+      case quantity
+      when :'?'       then ['', Randgen.any].pick
+      when :+, :'+?'  then Randgen.any
+      when :*, :'*?'  then ['', Randgen.any].pick
+      when Range      then Randgen.any(:length => quantity.pick)
+      when 1, nil     then Randgen.any
+      when Integer    then Randgen.any(:length => quantity)
       end
     end
 
